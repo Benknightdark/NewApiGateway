@@ -9,16 +9,16 @@ namespace api2.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class Call2Controller : ControllerBase
+    public class CallController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<Call2Controller> _logger;
+        private readonly ILogger<CallController> _logger;
 
-        public Call2Controller(ILogger<Call2Controller> logger)
+        public CallController(ILogger<CallController> logger)
         {
             _logger = logger;
         }

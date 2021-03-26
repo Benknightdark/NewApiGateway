@@ -5,7 +5,7 @@ services:
       context: ./ApiGateway
       dockerfile: ./Dockerfile
     ports: 
-      - 5566:80
+      - 5757:80
     depends_on:
       - api1   
       - api2

@@ -34,6 +34,7 @@ namespace ApiGateway
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiGateway", Version = "v1" });
             });
+            services.AddAuthentication();
             services.AddOcelot();
 
         }

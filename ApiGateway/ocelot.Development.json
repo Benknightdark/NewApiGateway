@@ -1,22 +1,36 @@
 {
-    "Routes": [
-      {
-        "DownstreamPathTemplate": "/api/{everything}",
-        "DownstreamScheme": "https",
-        "DownstreamHostAndPorts": [
-          {
-            "Host": "eupappapi-development.azurewebsites.net",
-            "Port": 443
-          }
-        ],
-        "RouteIsCaseSensitive": false,
-  
-        "UpstreamPathTemplate": "/api/{everything}",
-        "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
-       
-      }    
-    ],
-    "GlobalConfiguration": {
-        "BaseUrl": "http://localhost:5000"
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5100
+        }
+      ],
+      "RouteIsCaseSensitive": false,
+
+      "UpstreamPathTemplate": "/{url}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+     
+    },
+    {
+      "DownstreamPathTemplate": "/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5200
+        }
+      ],
+      "RouteIsCaseSensitive": false,
+
+      "UpstreamPathTemplate": "/{url}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     }
+  ],
+  "GlobalConfiguration": {
+      "BaseUrl": "http://localhost:5000"
+  }
 }
