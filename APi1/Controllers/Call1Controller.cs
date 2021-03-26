@@ -5,20 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace api2.Controllers
+namespace Api1.Controllers
 {
-    [ApiController]
+     [ApiController]
     [Route("[controller]")]
-    public class Call2Controller : ControllerBase
+    public class Call1Controller : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<Call2Controller> _logger;
+        private readonly ILogger<Call1Controller> _logger;
 
-        public Call2Controller(ILogger<Call2Controller> logger)
+        public Call1Controller(ILogger<Call1Controller> logger)
         {
             _logger = logger;
         }
@@ -26,7 +26,7 @@ namespace api2.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("come from api2");
+            return Ok("come from api1");
         }
     }
 }

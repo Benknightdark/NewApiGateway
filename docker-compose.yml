@@ -5,16 +5,16 @@ services:
       context: ./ApiGateway
       dockerfile: ./Dockerfile
     ports: 
-      - 5566:80  
+      - 5566:80
+    depends_on:
+      - api1   
+      - api2
   api1:
     build:
       context: ./Api1
-      dockerfile: ./Dockerfile   
-    depends_on:
-      - gateway          
+      dockerfile: ./Dockerfile          
   api2:
     build:
       context: ./Api2
       dockerfile: ./Dockerfile   
-    depends_on:
-      - gateway 
+ 
