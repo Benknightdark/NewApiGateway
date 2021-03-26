@@ -4,6 +4,8 @@ services:
     build:
       context: ./ApiGateway
       dockerfile: ./Dockerfile
+    ports: 
+      - 5566:80  
   api1:
     build:
       context: ./Api1
