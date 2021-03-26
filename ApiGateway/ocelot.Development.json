@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -10,14 +10,35 @@
         }
       ],
       "RouteIsCaseSensitive": false,
-
       "UpstreamPathTemplate": "/api1/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Delete"
+      ]     
+    },
+    {
+      "DownstreamPathTemplate": "/auth/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5100
+        }
+      ],
+      "RouteIsCaseSensitive": false,
+      "UpstreamPathTemplate": "/auth/api1/{everything}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Delete"
+      ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "TestKey",
         "AllowedScopes": []
-    }
-     
+      }
     },
     {
       "DownstreamPathTemplate": "/{everything}",
@@ -29,12 +50,16 @@
         }
       ],
       "RouteIsCaseSensitive": false,
-
       "UpstreamPathTemplate": "/api2/{everything}",
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Delete"
+      ]
     }
   ],
   "GlobalConfiguration": {
-      "BaseUrl": "http://localhost:5000"
+    "BaseUrl": "http://localhost:5000"
   }
 }
