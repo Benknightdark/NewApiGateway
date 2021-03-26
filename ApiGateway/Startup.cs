@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
 
 namespace ApiGateway
 {
@@ -32,6 +34,8 @@ namespace ApiGateway
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiGateway", Version = "v1" });
             });
+            services.AddOcelot();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,16 +48,22 @@ namespace ApiGateway
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiGateway v1"));
             }
 
-            app.UseHttpsRedirection();
 
+           // 啟用路由
             app.UseRouting();
-
+            // 啟用驗證
+            app.UseAuthentication();
+            // 啟用授權
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            var configuration = new OcelotPipelineConfiguration
+            {
+            };
+
+            app.UseOcelot(configuration).Wait(); ;
         }
     }
 }
