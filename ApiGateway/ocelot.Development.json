@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/{url}",
+      "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -11,12 +11,12 @@
       ],
       "RouteIsCaseSensitive": false,
 
-      "UpstreamPathTemplate": "/{url}",
+      "UpstreamPathTemplate": "/api1/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
      
     },
     {
-      "DownstreamPathTemplate": "/{url}",
+      "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -26,7 +26,7 @@
       ],
       "RouteIsCaseSensitive": false,
 
-      "UpstreamPathTemplate": "/{url}",
+      "UpstreamPathTemplate": "/api2/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     }
   ],
