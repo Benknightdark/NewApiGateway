@@ -8,12 +8,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Api1.Controllers
 {
-    public class CallController : AuthBaseController
+    public class PingController : BasicBaseController
     {
-      
-        private readonly ILogger<CallController> _logger;
 
-        public CallController(ILogger<CallController> logger)
+        private readonly ILogger<PingController> _logger;
+
+        public PingController(ILogger<PingController> logger)
         {
             _logger = logger;
         }
@@ -21,7 +21,7 @@ namespace Api1.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("come from api1");
+            return Ok("ping me");
         }
     }
 }

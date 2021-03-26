@@ -1,15 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -34,7 +40,40 @@ namespace ApiGateway
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiGateway", Version = "v1" });
             });
-            services.AddAuthentication();
+            services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer("TestKey",x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetValue<string>("JWTSecretKey"))),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                    x.Events = new JwtBearerEvents()
+                     {
+
+                         OnChallenge = context =>
+                         {
+                             context.HandleResponse();
+                             context.Response.WriteAsync(
+                                 System.Text.Json.JsonSerializer.Serialize(
+                                     new 
+                                     {
+                                         status = 401,
+                                         title = "401",
+                                         errors = "需要登入才能使用此功能"
+                                     }));
+                             return Task.FromResult(0);
+                         }
+                     };
+                });
             services.AddOcelot();
 
         }
@@ -49,8 +88,7 @@ namespace ApiGateway
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiGateway v1"));
             }
 
-
-           // 啟用路由
+            // 啟用路由
             app.UseRouting();
             // 啟用驗證
             app.UseAuthentication();
