@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api2.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace api2.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class Call2Controller : ControllerBase
+
+    public class Call2Controller : BasicBaseController
     {
         private static readonly string[] Summaries = new[]
         {
