@@ -9,6 +9,11 @@ services:
     depends_on:
       - api1   
       - api2
+      - identity-server
+  identity-server:
+    build:
+      context: ./IdentityServer
+      dockerfile: ./Dockerfile 
   api1:
     build:
       context: ./Api1
