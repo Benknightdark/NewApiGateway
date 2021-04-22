@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,10 +27,29 @@ namespace IdentityServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var ApiScoped = new List<ApiScope>
+            {
+            new ApiScope( Configuration.GetValue<string>("ALLOWSCOPES") , "My API")
+            };
+            var ClientsData = new List<Client>{
+                new Client
+                {
+                    ClientId = Configuration.GetValue<string>("CLIENT"),
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets =
+                            {
+                            new Secret(Configuration.GetValue<string>("SECRET").Sha256())
+                            },
+
+                    AllowedScopes = { Configuration.GetValue<string>("ALLOWSCOPES") }
+                }
+            };
+
+
             var builder = services.AddIdentityServer()
                    .AddDeveloperSigningCredential()        //This is for dev only scenarios when you don’t have a certificate to use.
-                   .AddInMemoryApiScopes(Config.ApiScopes)
-                   .AddInMemoryClients(Config.Clients);
+                   .AddInMemoryApiScopes(ApiScoped)
+                   .AddInMemoryClients(ClientsData);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

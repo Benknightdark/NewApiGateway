@@ -15,7 +15,9 @@ services:
       context: ./IdentityServer
       dockerfile: ./Dockerfile 
     env_file: 
-      - ./production.env  
+      - ./production.env
+    ports: 
+        - 5758:80        
   api1:
     build:
       context: ./Api1
@@ -24,4 +26,9 @@ services:
     build:
       context: ./Api2
       dockerfile: ./Dockerfile   
- 
+  account-service:
+    build:
+      context: ./AccountService
+      dockerfile: ./Dockerfile   
+    depends_on:
+      - identity-server      
