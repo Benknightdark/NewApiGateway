@@ -16,7 +16,7 @@
         "Post",
         "Put",
         "Delete"
-      ]     
+      ]
     },
     {
       "DownstreamPathTemplate": "/auth/api/{everything}",

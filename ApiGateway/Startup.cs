@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -27,40 +28,50 @@ namespace ApiGateway
         {
 
             services.AddControllers();
-            services.AddAuthentication(x =>
+            var authenticationProviderKey = "TestKey";
+            Action<JwtBearerOptions> options = o =>
                 {
-                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer("TestKey",x =>
-                {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetValue<string>("JWTSecretKey"))),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                    x.Events = new JwtBearerEvents()
-                     {
+                    o.Authority = "http://identity-server";
+                    o.RequireHttpsMetadata=false;
+            // etc
+        };
 
-                         OnChallenge = context =>
-                         {
-                             context.HandleResponse();
-                             context.Response.WriteAsync(
-                                 System.Text.Json.JsonSerializer.Serialize(
-                                     new 
-                                     {
-                                         status = 401,
-                                         title = "401",
-                                         errors = "需要登入才能使用此功能"
-                                     }));
-                             return Task.FromResult(0);
-                         }
-                     };
-                });
+            services.AddAuthentication()
+                .AddJwtBearer(authenticationProviderKey, options);
+            // services.AddAuthentication(x =>
+            //     {
+            //         x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //         x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //     })
+            //     .AddJwtBearer("TestKey",x =>
+            //     {
+            //         x.RequireHttpsMetadata = false;
+            //         x.SaveToken = true;
+            //         x.TokenValidationParameters = new TokenValidationParameters
+            //         {
+            //             ValidateIssuerSigningKey = true,
+            //             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetValue<string>("JWTSecretKey"))),
+            //             ValidateIssuer = false,
+            //             ValidateAudience = false
+            //         };
+            //         x.Events = new JwtBearerEvents()
+            //          {
+
+            //              OnChallenge = context =>
+            //              {
+            //                  context.HandleResponse();
+            //                  context.Response.WriteAsync(
+            //                      System.Text.Json.JsonSerializer.Serialize(
+            //                          new 
+            //                          {
+            //                              status = 401,
+            //                              title = "401",
+            //                              errors = "需要登入才能使用此功能"
+            //                          }));
+            //                  return Task.FromResult(0);
+            //              }
+            //          };
+            //     });
             services.AddOcelot();
 
         }
