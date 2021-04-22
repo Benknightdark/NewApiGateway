@@ -1,6 +1,6 @@
 using System;
 
-namespace ApiGateway
+namespace IdentityServer
 {
     public class WeatherForecast
     {
