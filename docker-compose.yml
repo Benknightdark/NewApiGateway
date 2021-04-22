@@ -14,6 +14,8 @@ services:
     build:
       context: ./IdentityServer
       dockerfile: ./Dockerfile 
+    env_file: 
+      - ./production.env  
   api1:
     build:
       context: ./Api1

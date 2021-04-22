@@ -32,9 +32,25 @@ namespace ApiGateway
             Action<JwtBearerOptions> options = o =>
                 {
                     o.Authority = "http://identity-server";
-                    o.RequireHttpsMetadata=false;
-            // etc
-        };
+                    o.RequireHttpsMetadata = false;
+                    o.Events = new JwtBearerEvents()
+                    {
+
+                        OnChallenge = context =>
+                        {
+                            context.HandleResponse();
+                            context.Response.WriteAsync(
+                                System.Text.Json.JsonSerializer.Serialize(
+                                    new
+                                    {
+                                        status = 401,
+                                        title = "401",
+                                        errors = "需要登入才能使用此功能"
+                                    }));
+                            return Task.FromResult(0);
+                        }
+                    };
+                };
 
             services.AddAuthentication()
                 .AddJwtBearer(authenticationProviderKey, options);
@@ -42,6 +58,7 @@ namespace ApiGateway
             //     {
             //         x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             //         x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
             //     })
             //     .AddJwtBearer("TestKey",x =>
             //     {

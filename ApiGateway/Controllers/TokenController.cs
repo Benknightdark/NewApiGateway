@@ -25,22 +25,20 @@ namespace ApiGateway.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            #region 加入jwt claims 角色授權
 
+            // var token = new JwtSecurityToken(
+            //     // issuer: _configuration.GetValue<string>("Tokens:ValidIssuer"),
+            //     // audience: _configuration.GetValue<string>("Tokens:ValidAudience"),
+            //     expires: DateTime.Now.AddDays(365),
+            //     // claims: claims,
+            //     signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JWTSecretKey"))),
+            //         SecurityAlgorithms.HmacSha256)
+            // );
+            // // token.Payload.Add("UserInfo", model);
+            // var SecurityToken = (new JwtSecurityTokenHandler().WriteToken(token));
+            // return Ok(SecurityToken);
 
-            #endregion 加入jwt claims 角色授權
-
-            var token = new JwtSecurityToken(
-                // issuer: _configuration.GetValue<string>("Tokens:ValidIssuer"),
-                // audience: _configuration.GetValue<string>("Tokens:ValidAudience"),
-                expires: DateTime.Now.AddDays(365),
-                // claims: claims,
-                signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JWTSecretKey"))),
-                    SecurityAlgorithms.HmacSha256)
-            );
-            // token.Payload.Add("UserInfo", model);
-            var SecurityToken = (new JwtSecurityTokenHandler().WriteToken(token));
-            return Ok(SecurityToken);
+            return Ok();
         }
     }
 }
