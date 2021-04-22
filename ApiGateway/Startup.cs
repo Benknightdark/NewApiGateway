@@ -33,6 +33,10 @@ namespace ApiGateway
                 {
                     o.Authority = "http://identity-server";
                     o.RequireHttpsMetadata = false;
+                    o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false
+                };
                     o.Events = new JwtBearerEvents()
                     {
 
